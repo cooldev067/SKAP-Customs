@@ -1,23 +1,69 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { Client, Databases } from "appwrite";
+import Image from "next/image";
+import Link from "next/link";
+import CardSkeleton from "./CardSkeleton";
+
+const client = new Client()
+  .setEndpoint("https://cloud.appwrite.io/v1")
+  .setProject("66cc3d01000e59e4a9d7");
 
 const ProductCard = () => {
+  const [Product, setProduct] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const databases = new Databases(client);
+
+    let promise = databases.listDocuments(
+      "66cc3e4f001c0677c96c",
+      "66cc3e6b003be60cf624"
+    );
+
+    promise.then(
+      function (response) {
+        setProduct(response.documents);
+        setLoading(false);
+      },
+      function (error) {
+        console.log(error);
+      }
+    );
+  }, []);
+
   return (
-    <main>
-      <div className="card card-compact bg-base-100 w-96 shadow-xl">
-        <figure>
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-            alt="Shoes"
-          />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">Shoes!</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div className="card-actions justify-end">
-            <button className="btn btn-primary">Buy Now</button>
-          </div>
-        </div>
-      </div>
+    <main className="flex justify-center p-10 gap-8 flex-wrap">
+      {loading
+        ? Array.from({ length: 4 }).map((_, index) => (
+            <CardSkeleton key={index} />
+          ))
+        : Product.map((product) => (
+            <div
+              key={product.$id}
+              className="card card-compact bg-base-100 w-72 shadow-xl"
+            >
+              <Link href={product.slug}>
+                <figure>
+                  <Image
+                    width={600}
+                    height={600}
+                    src={product.Image}
+                    className="h-72 rounded-t-2xl"
+                    alt="Shoes"
+                  />
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title">{product.Title}</h2>
+                  <div className="card-actions flex justify-between items-center">
+                    <h1 className="text-xl font-semibold">₹{product.Price}</h1>
+                    <button className="btn bg-black text-white">Buy Now</button>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
     </main>
   );
 };

@@ -3,6 +3,8 @@ import "./globals.css";
 import { DialogProvider } from "@/context/Context";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ClerkProvider } from "@clerk/nextjs";
+import Cart from "@/components/Cart";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,13 +16,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <DialogProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <Navbar />
-          {children}
-          <Footer />
-        </body>
-      </html>
+      <ClerkProvider>
+        <html lang="en">
+          <body className={inter.className}>
+            <Navbar />
+            <Cart />
+            {children}
+            <Footer />
+          </body>
+        </html>
+      </ClerkProvider>
     </DialogProvider>
   );
 }

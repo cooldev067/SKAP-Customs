@@ -1,5 +1,6 @@
 import React from "react";
 import ProductCard from "./ProductCard";
+import Image from "next/image";
 
 const HomePage = () => {
   return (
@@ -7,12 +8,7 @@ const HomePage = () => {
       <div>
         
       </div>
-      <div className="flex p-10 gap-8 flex-wrap">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+      <div>
         <ProductCard />
       </div>
     </main>

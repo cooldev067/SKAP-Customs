@@ -9,8 +9,20 @@ const DialogContext = createContext();
 export function DialogProvider({ children }) {
   const [open, setOpen] = useState(false);
 
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    setCart((prevCart) => [...prevCart, product]);
+  };
+
+  const removeFromCart = (id) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
+
   return (
-    <DialogContext.Provider value={{ open, setOpen }}>
+    <DialogContext.Provider
+      value={{ open, setOpen, cart, setCart, addToCart, removeFromCart }}
+    >
       {children}
     </DialogContext.Provider>
   );
