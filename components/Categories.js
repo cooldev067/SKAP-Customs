@@ -6,19 +6,19 @@ const Categories = () => {
     <main>
       <ul className="flex px-5 border-2 text-nowrap gap-5 text-lg font-medium items-center md:justify-center h-12 w-full overflow-x-scroll md:overflow-hidden">
         <li>
-          <Link href={"/"}>T-Shirts</Link>
+          <Link href={"/Tshirts/new-tshirts"}>T-Shirts</Link>
         </li>
         <li>
-          <Link href={"/"}>Stickers</Link>
+          <Link href={"/stickers/new-stickers"}>Stickers</Link>
         </li>
         <li>
-          <Link href={"/"}>Mugs & Cups</Link>
+          <Link href={"/mugs-cups/mugs-and-cups"}>Mugs & Cups</Link>
         </li>
         <li>
-          <Link href={"/"}>Bottles</Link>
+          <Link href={"/bottles/new-bottles"}>Bottles</Link>
         </li>
         <li>
-          <Link href={"/"}>Phone Covers</Link>
+          <Link href={"/phone-covers/new-covers"}>Phone Covers</Link>
         </li>
         <li>
           <Link href={"/"}>Customize Your Own</Link>

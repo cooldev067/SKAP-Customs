@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Client, Databases } from "appwrite";
+import { Client, Databases, Query } from "appwrite";
 import Image from "next/image";
 import Link from "next/link";
-import CardSkeleton from "./CardSkeleton";
+import CardSkeleton from "@/components/CardSkeleton";
 
 const client = new Client()
   .setEndpoint("https://cloud.appwrite.io/v1")
   .setProject("66cc3d01000e59e4a9d7");
 
-const ProductCard = () => {
+const StickersCard = () => {
   const [Product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -19,7 +19,8 @@ const ProductCard = () => {
 
     let promise = databases.listDocuments(
       "66cc3e4f001c0677c96c",
-      "66cc3e6b003be60cf624"
+      "66cc3e6b003be60cf624",
+      [Query.equal("Category", "Stickers")]
     );
 
     promise.then(
@@ -68,4 +69,4 @@ const ProductCard = () => {
   );
 };
 
-export default ProductCard;
+export default StickersCard;
