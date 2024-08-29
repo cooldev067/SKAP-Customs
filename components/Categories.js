@@ -4,7 +4,7 @@ import React from "react";
 const Categories = () => {
   return (
     <main>
-      <ul className="flex px-5 border-2 text-nowrap gap-5 text-lg font-medium items-center md:justify-center h-12 w-full overflow-x-scroll md:overflow-hidden">
+      <ul className="flex px-5 bg-white text-black border-2 text-nowrap gap-5 text-lg font-medium items-center md:justify-center h-12 w-full overflow-x-scroll md:overflow-hidden">
         <li>
           <Link href={"/Tshirts/new-tshirts"}>T-Shirts</Link>
         </li>

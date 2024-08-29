@@ -34,7 +34,7 @@ const ProductCard = () => {
   }, []);
 
   return (
-    <main className="flex justify-center p-10 gap-8 flex-wrap">
+    <main className="flex justify-center p-8 gap-8 flex-wrap">
       {loading
         ? Array.from({ length: 4 }).map((_, index) => (
             <CardSkeleton key={index} />
@@ -42,7 +42,7 @@ const ProductCard = () => {
         : Product.map((product) => (
             <div
               key={product.$id}
-              className="card card-compact bg-base-100 w-72 shadow-xl"
+              className="card card-compact rounded-lg bg-base-100 w-72 shadow-xl"
             >
               <Link href={`/${product.slug}`}>
                 <figure>
@@ -50,8 +50,8 @@ const ProductCard = () => {
                     width={600}
                     height={600}
                     src={product.Image}
-                    className="h-72 rounded-t-2xl"
-                    alt="Shoes"
+                    className="h-72 rounded-t-lg"
+                    alt={product.Title}
                   />
                 </figure>
                 <div className="card-body">

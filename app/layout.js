@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
     <DialogProvider>
       <ClerkProvider>
         <html lang="en">
-          <body className={inter.className}>
+          <body className={`bg-gray-50 ${inter.className}`}>
             <Navbar />
             <Cart />
             {children}

@@ -52,7 +52,7 @@ const StickersCard = () => {
                     height={600}
                     src={product.Image}
                     className="h-72 rounded-t-2xl"
-                    alt="Shoes"
+                    alt={product.Title}
                   />
                 </figure>
                 <div className="card-body">

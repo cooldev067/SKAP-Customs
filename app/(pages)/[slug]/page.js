@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Client, Databases, Query } from "appwrite";
+import { Client, Databases, ID, Query } from "appwrite";
 import Image from "next/image";
 import { useDialog } from "@/context/Context";
 import ProductDetailSkeleton from "@/components/ProductDetailsSkeleton";
@@ -10,17 +10,18 @@ const client = new Client()
   .setEndpoint("https://cloud.appwrite.io/v1")
   .setProject("66cc3d01000e59e4a9d7");
 
+const databases = new Databases(client);
+
 const ProductDetail = ({ params }) => {
   const { slug } = params;
 
   const [Details, setDetails] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedSize, setSelectedSize] = useState("");
 
   const { addToCart } = useDialog();
 
   useEffect(() => {
-    const databases = new Databases(client);
-
     let promise = databases.listDocuments(
       "66cc3e4f001c0677c96c",
       "66cc3e6b003be60cf624",
@@ -39,7 +40,6 @@ const ProductDetail = ({ params }) => {
   }, []);
 
   const handleAddToCart = (product) => {
-    console.log("Adding to cart:", product);
     addToCart({
       id: product.$id,
       name: product.Title,
@@ -49,6 +49,41 @@ const ProductDetail = ({ params }) => {
       imageAlt: product.Title,
     });
   };
+
+  const handleBuyNow = (product) => {
+    if (!selectedSize || selectedSize === "Size") {
+      alert("Please select a size before placing the order.");
+      return;
+    }
+    const data = {
+      Title: product.Title,
+      Image: product.Image,
+      Slug: product.slug,
+      ID: product.$id,
+      Price: product.Price,
+      Quantity: 1,
+      Size: selectedSize,
+    };
+
+    const promise = databases.createDocument(
+      "66cc3e4f001c0677c96c", // Replace with your actual database ID
+      "66cc666b002d3a7ce7e3", // Replace with your actual collection ID
+      ID.unique(),
+      data
+    );
+
+    console.log(data);
+    promise.then(
+      function (response) {
+        console.log("Order created:", response, data);
+        // Redirect to payment or order confirmation page if needed
+      },
+      function (error) {
+        console.error("Error creating order:", error);
+      }
+    );
+  };
+
   return (
     <main>
       <section class="text-gray-600 body-font overflow-hidden">
@@ -74,8 +109,12 @@ const ProductDetail = ({ params }) => {
                     <div class="flex items-center">
                       {details.Category == "Tshirt" ? (
                         <div class="relative">
-                          <span class="mr-3">Size</span>
-                          <select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+                          <select
+                            onChange={(e) => setSelectedSize(e.target.value)}
+                            value={selectedSize}
+                            class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10"
+                          >
+                            <option value="Select Size">Size</option>
                             {details.Size.map((size, index) => (
                               <option key={index}>{size}</option>
                             ))}
@@ -110,7 +149,12 @@ const ProductDetail = ({ params }) => {
                       >
                         Add to Cart
                       </button>
-                      <button class="btn bg-black text-white">Buy Now</button>
+                      <button
+                        onClick={() => handleBuyNow(details)}
+                        class="btn bg-black text-white"
+                      >
+                        Buy Now
+                      </button>
                     </div>
                   </div>
                 </div>
